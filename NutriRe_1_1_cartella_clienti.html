@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutriRe — Gestionale</title>
+<style>
+:root{--ink:#252b27;--sage:#dce5dc;--sage2:#edf2ed;--paper:#f7f7f3;--muted:#778078;--line:#e3e7e1;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#242b26;color:white;padding:22px max(20px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:28px;font-weight:650;letter-spacing:-1.4px}.logo span{color:#b9c9ba}.sub{font-size:10px;letter-spacing:2px;color:#c3cec4}
+.shell{max-width:1180px;margin:auto;padding:24px 20px 50px}.welcome{display:flex;justify-content:space-between;align-items:end;margin:4px 0 22px;gap:16px}.welcome h1{font-size:25px;letter-spacing:-.7px;margin:0 0 4px}.muted{color:var(--muted)}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.tab{border:1px solid var(--line);background:white;color:var(--ink);border-radius:10px;padding:10px 14px;cursor:pointer}.tab.active{background:#28332c;color:white;border-color:#28332c}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 20px #17251b08}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+h2{font-size:18px;margin:0 0 14px}h3{font-size:14px;margin:0 0 8px}.stat{background:var(--sage2);padding:16px;border-radius:12px}.stat strong{font-size:24px;display:block}
+label{display:block;font-size:12px;color:#5f6961;margin:0 0 5px}input,select,textarea{width:100%;border:1px solid #dce2db;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);font:inherit;min-width:0}textarea{min-height:76px;resize:vertical}.field{margin-bottom:12px}
+button{border:0;border-radius:9px;padding:10px 14px;background:#28332c;color:white;font:inherit;cursor:pointer}.secondary{background:var(--sage2);color:var(--ink);border:1px solid var(--line)}.danger{background:#f7e9e7;color:#8a332b}.small{font-size:12px;padding:7px 10px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:550}
+.empty{padding:26px;text-align:center;color:var(--muted);background:#fafbf9;border:1px dashed #d9e0d8;border-radius:12px}
+.item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.hidden{display:none!important}.pill{background:var(--sage2);padding:4px 8px;border-radius:20px;font-size:11px;color:#526054}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.profile-details{border:1px solid var(--line);border-radius:12px;padding:14px;margin:8px 0 16px;background:#fbfcfa}.profile-details summary{cursor:pointer;font-weight:600;color:#405044;margin-bottom:12px}.profile-details[open] summary{margin-bottom:18px}.notice{font-size:12px;color:var(--muted);background:#f8f9f6;border-radius:10px;padding:12px}
+footer{text-align:center;color:#929b93;font-size:11px;padding:20px}
+@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.welcome{align-items:start;flex-direction:column}.shell{padding:18px 13px}.panel{padding:15px}header{padding:17px 16px}}
+@media print{header,nav,.no-print,footer{display:none!important}body{background:white}.shell{padding:0;max-width:none}.panel{box-shadow:none;border:0;padding:0}.print-area{display:block!important}}
+</style>
+</head>
+<body>
+<header><div><div class="logo">NutriRe<span>.</span></div><div class="sub">NUTRITION · TRAINING · WELLNESS</div></div><div class="sub">PERSONAL PRACTICE</div></header>
+<main class="shell">
+<div class="welcome"><div><h1>Il tuo spazio professionale</h1><div class="muted">Gestisci clienti, percorsi nutrizionali e allenamenti.</div></div><span class="pill">Versione prototipo 1.1</span></div>
+<nav class="no-print">
+<button class="tab active" data-tab="home">Panoramica</button><button class="tab" data-tab="clients">Clienti</button><button class="tab" data-tab="nutrition">Nutrizione</button><button class="tab" data-tab="training">Allenamento</button><button class="tab" data-tab="foods">Alimenti</button><button class="tab" data-tab="documents">Documenti</button>
+</nav>
+<section id="home" class="view">
+<div class="grid3">
+<div class="stat"><span class="muted">Clienti in archivio</span><strong id="countClients">0</strong></div>
+<div class="stat"><span class="muted">Piani nutrizionali</span><strong id="countDiets">0</strong></div>
+<div class="stat"><span class="muted">Schede allenamento</span><strong id="countWorkouts">0</strong></div>
+</div>
+<div class="panel" style="margin-top:16px"><h2>Benvenuta in NutriRe</h2><p class="muted">Questa prima versione è una base dimostrativa per organizzare il tuo lavoro. Puoi inserire clienti, preparare bozze di piani e stamparle in PDF.</p><div class="notice">Nota: i dati di questa demo restano nel browser/dispositivo tramite memoria locale. Non inserire dati sanitari o identificativi reali finché non sarà configurata la versione online protetta, con autenticazione, database e misure GDPR.</div></div>
+</section>
+<section id="clients" class="view hidden">
+<div class="panel"><div class="row between"><h2>Archivio clienti</h2><button onclick="newClient()">+ Nuovo cliente</button></div><div id="clientForm" class="hidden">
+<h3 id="clientFormTitle">Nuovo cliente</h3>
+<div class="grid">
+<div class="field"><label>Nome e cognome *</label><input id="cName" placeholder="Nome cliente" required></div>
+<div class="field"><label>Telefono (facoltativo)</label><input id="cPhone" type="tel" placeholder="Numero di telefono"></div>
+<div class="field"><label>Email (facoltativa)</label><input id="cEmail" type="email" placeholder="email"></div>
+<div class="field"><label>Data di nascita</label><input id="cBirth" type="date"></div>
+<div class="field"><label>Obiettivo</label><select id="cGoal"><option value="">Da definire</option><option>Ricomposizione corporea</option><option>Dimagrimento</option><option>Aumento massa muscolare</option><option>Mantenimento</option><option>Performance sportiva</option><option>Benessere generale</option></select></div>
+</div>
+<details class="profile-details"><summary>Completa la cartella cliente (facoltativo)</summary>
+<h3>Anamnesi e informazioni alimentari</h3>
+<div class="grid">
+<div class="field"><label>Allergie alimentari</label><textarea id="cAllergies" placeholder="Indicare allergeni, reazioni e informazioni riferite/diagnosticate"></textarea></div>
+<div class="field"><label>Intolleranze</label><textarea id="cIntolerances" placeholder="Indicare eventuali intolleranze e informazioni disponibili"></textarea></div>
+<div class="field"><label>Alimenti non graditi</label><textarea id="cDislikes" placeholder="Alimenti che preferisce evitare"></textarea></div>
+<div class="field"><label>Alimenti preferiti</label><textarea id="cFavorites" placeholder="Alimenti e preparazioni preferite"></textarea></div>
+<div class="field"><label>Preferenze / stile alimentare</label><textarea id="cFoodStyle" placeholder="Es. onnivoro, vegetariano, vegano..."></textarea></div>
+<div class="field"><label>Anamnesi e note generali</label><textarea id="cAnamnesis" placeholder="Informazioni anamnestiche utili"></textarea></div>
+</div>
+<h3>Terapie farmacologiche</h3>
+<div class="field"><label>Medicinali assunti abitualmente</label><textarea id="cMedications" placeholder="Nome, dosaggio, frequenza, orario e note. Aggiornare quando la terapia cambia."></textarea></div>
+<h3>Abitudini alimentari</h3>
+<div class="grid">
+<div class="field"><label>Numero di pasti giornalieri</label><select id="cMeals"><option value="">Da definire</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6 o più</option><option>Variabile</option></select></div>
+<div class="field"><label>Orari abituali dei pasti</label><textarea id="cMealTimes" placeholder="Es. colazione 7:30, pranzo 13:00, cena 20:30"></textarea></div>
+<div class="field"><label>Preferenze per i pasti</label><textarea id="cMealPreferences" placeholder="Es. colazione dolce/salata, pranzo veloce, pasti fuori casa"></textarea></div>
+<div class="field"><label>Giornata alimentare tipo</label><textarea id="cTypicalDay" placeholder="Descrivere cosa mangia e beve abitualmente: colazione, spuntini, pranzo, cena"></textarea></div>
+</div>
+<h3>Stile di vita e organizzazione</h3>
+<div class="grid">
+<div class="field"><label>Lavoro e turni</label><textarea id="cWork" placeholder="Orari, turni, pause e pasti fuori casa"></textarea></div>
+<div class="field"><label>Attività fisica</label><textarea id="cActivity" placeholder="Tipo, frequenza e orari degli allenamenti"></textarea></div>
+<div class="field"><label>Sonno</label><textarea id="cSleep" placeholder="Ore e abitudini del sonno"></textarea></div>
+<div class="field"><label>Tempo per cucinare / organizzazione</label><textarea id="cCooking" placeholder="Tempo disponibile, preparazione pasti, spesa"></textarea></div>
+</div>
+<h3>Valutazione corporea (da completare)</h3>
+<div class="grid">
+<div class="field"><label>Altezza (cm)</label><input id="cHeight" type="number" min="0" step="0.1"></div>
+<div class="field"><label>Peso (kg)</label><input id="cWeight" type="number" min="0" step="0.1"></div>
+<div class="field"><label>BIA / composizione corporea</label><textarea id="cBia" placeholder="Inserire i risultati della valutazione BIA"></textarea></div>
+<div class="field"><label>Plicometria e circonferenze</label><textarea id="cMeasures" placeholder="Pliche e circonferenze, con data della rilevazione"></textarea></div>
+</div>
+</details>
+<div class="field"><label>Note organizzative</label><textarea id="cNotes" placeholder="Promemoria e note non cliniche"></textarea></div>
+<div class="actions"><button onclick="saveClient()">Salva cliente</button><button class="secondary" onclick="closeClient()">Annulla</button></div></div>
+<div id="clientList"></div></div>
+</section>
+<section id="nutrition" class="view hidden">
+<div class="panel"><h2>Creatore piano nutrizionale</h2>
+<div class="grid"><div class="field"><label>Cliente</label><select id="dietClient"></select></div><div class="field"><label>Titolo del piano</label><input id="dietTitle" placeholder="Es. Piano nutrizionale"></div><div class="field"><label>Energia giornaliera (kcal)</label><input id="kcal" type="number" placeholder="2000"></div><div class="field"><label>Proteine (g)</label><input id="protein" type="number" placeholder="120"></div><div class="field"><label>Carboidrati (g)</label><input id="carbs" type="number" placeholder="230"></div><div class="field"><label>Grassi (g)</label><input id="fat" type="number" placeholder="65"></div></div>
+<div class="field"><label>Indicazioni generali</label><textarea id="dietNotes" placeholder="Inserisci indicazioni e note del piano"></textarea></div>
+<h3>Giornata alimentare</h3><div class="grid"><div class="field"><label>Colazione</label><textarea id="breakfast" placeholder="Alimenti e grammature"></textarea></div><div class="field"><label>Spuntino</label><textarea id="snack" placeholder="Alimenti e grammature"></textarea></div><div class="field"><label>Pranzo</label><textarea id="lunch" placeholder="Alimenti e grammature"></textarea></div><div class="field"><label>Merenda</label><textarea id="merenda" placeholder="Alimenti e grammature"></textarea></div><div class="field"><label>Cena</label><textarea id="dinner" placeholder="Alimenti e grammature"></textarea></div><div class="field"><label>Alternative / sostituzioni</label><textarea id="alternatives" placeholder="Alternative alimentari"></textarea></div></div>
+<div class="actions no-print"><button onclick="saveDiet()">Salva piano</button><button class="secondary" onclick="previewDiet()">Anteprima / stampa PDF</button></div><div id="dietSaved" class="muted" style="margin-top:10px"></div></div>
+<div class="panel"><h2>Piani salvati</h2><div id="dietList"></div></div>
+</section>
+<section id="training" class="view hidden">
+<div class="panel">
+<h2>Programmazione allenamento</h2>
+<div class="grid"><div class="field"><label>Cliente</label><select id="workClient"></select></div><div class="field"><label>Titolo programma</label><input id="workTitle" placeholder="Es. Forza e ipertrofia"></div><div class="field"><label>Obiettivo</label><input id="workGoal" placeholder="Forza, ipertrofia, endurance..."></div><div class="field"><label>Frequenza settimanale</label><input id="workFreq" placeholder="Es. 3 sedute a settimana"></div></div>
+<div class="field"><label>Durata del programma</label><select id="workWeeks" onchange="setWeeks()"><option value="4">4 settimane</option><option value="5">5 settimane</option><option value="6">6 settimane</option></select></div>
+<div class="row" style="margin:8px 0 14px"><b>Settimana di lavoro</b><div id="weekButtons" class="actions"></div></div>
+<div class="grid"><div class="field"><label>Giorno / seduta</label><select id="workDay"><option>Lunedì</option><option>Martedì</option><option>Mercoledì</option><option>Giovedì</option><option>Venerdì</option><option>Sabato</option><option>Domenica</option><option>Workout A</option><option>Workout B</option><option>Workout C</option></select></div><div class="field"><label>Ricerca esercizio nel database</label><input id="exerciseSearch" oninput="renderExercisePicker()" placeholder="Es. squat, panca, rematore..."></div></div>
+<div class="field"><label>Esercizio</label><select id="exercisePicker"></select></div>
+<div class="grid3"><div class="field"><label>Serie</label><input id="exSets" type="number" min="1" value="3"></div><div class="field"><label>Ripetizioni</label><input id="exReps" placeholder="Es. 8-10"></div><div class="field"><label>Recupero</label><input id="exRest" placeholder="Es. 90 sec"></div></div>
+<div class="field"><label>Carico / RPE / note tecniche</label><input id="exNotes" placeholder="Es. 70 kg · RPE 8 · controllo eccentrica"></div>
+<div class="actions no-print"><button onclick="addExerciseToWorkout()">+ Aggiungi esercizio alla seduta</button><button class="secondary" onclick="showExerciseForm()">+ Crea esercizio personalizzato</button></div>
+<div id="customExerciseForm" class="hidden" style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px">
+<h3>Nuovo esercizio nel database</h3><div class="grid"><div class="field"><label>Nome</label><input id="newExName" placeholder="Nome esercizio"></div><div class="field"><label>Gruppo muscolare</label><select id="newExGroup"><option>Petto</option><option>Schiena</option><option>Spalle</option><option>Bicipiti</option><option>Tricipiti</option><option>Quadricipiti</option><option>Femorali</option><option>Glutei</option><option>Polpacci</option><option>Addome e core</option><option>Full body</option><option>Condizionamento</option></select></div><div class="field"><label>Attrezzatura</label><input id="newExEquipment" placeholder="Bilanciere, manubri, cavi..."></div><div class="field"><label>Tipologia</label><select id="newExType"><option>Multiarticolare</option><option>Monoarticolare</option><option>Funzionale</option><option>Cardio</option><option>Mobilità</option></select></div></div><div class="actions"><button onclick="saveExercise()">Salva nel database</button><button class="secondary" onclick="hideExerciseForm()">Annulla</button></div>
+</div>
+</div>
+<div class="panel"><div class="row between"><h2>Contenuto della settimana</h2><span id="weekLabel" class="pill">Settimana 1</span></div><div id="weekWorkoutContent"></div><div class="actions no-print" style="margin-top:14px"><button onclick="saveWorkout()">Salva programma completo</button><button class="secondary" onclick="previewWorkout()">Anteprima / stampa PDF</button></div></div>
+<div class="panel"><h2>Database esercizi</h2><div class="grid"><div class="field"><label>Filtra per gruppo muscolare</label><select id="exerciseGroupFilter" onchange="renderExerciseDatabase()"><option value="">Tutti i gruppi</option><option>Petto</option><option>Schiena</option><option>Spalle</option><option>Bicipiti</option><option>Tricipiti</option><option>Quadricipiti</option><option>Femorali</option><option>Glutei</option><option>Polpacci</option><option>Addome e core</option><option>Full body</option><option>Condizionamento</option></select></div><div class="field"><label>Cerca nel database</label><input id="exerciseDbSearch" oninput="renderExerciseDatabase()" placeholder="Cerca esercizio"></div></div><div id="exerciseDatabaseList"></div></div>
+<div class="panel"><h2>Programmi salvati</h2><div id="workList"></div></div>
+</section>
+<section id="foods" class="view hidden">
+<div class="panel">
+<div class="row between"><h2>Banca dati alimenti</h2><button onclick="showFoodForm()">+ Nuovo alimento</button></div>
+<p class="muted">Archivio personalizzabile: valori nutrizionali riferiti a 100 g o 100 ml, salvo diversa indicazione.</p>
+<div class="grid"><div class="field"><label>Cerca alimento</label><input id="foodSearch" oninput="renderFoods()" placeholder="Es. pasta, yogurt, pollo..."></div><div class="field"><label>Categoria</label><select id="foodFilter" onchange="renderFoods()"><option value="">Tutte le categorie</option><option>Cereali e derivati</option><option>Carne</option><option>Pesce</option><option>Uova</option><option>Latte e derivati</option><option>Legumi</option><option>Frutta</option><option>Verdura</option><option>Frutta secca e semi</option><option>Oli e condimenti</option><option>Prodotti confezionati</option><option>Altro</option></select></div></div>
+<div id="foodForm" class="hidden" style="border-top:1px solid var(--line);padding-top:16px">
+<h3>Nuovo alimento</h3>
+<div class="grid"><div class="field"><label>Nome alimento</label><input id="fName" placeholder="Es. Yogurt greco bianco"></div><div class="field"><label>Categoria</label><select id="fCategory"><option>Cereali e derivati</option><option>Carne</option><option>Pesce</option><option>Uova</option><option>Latte e derivati</option><option>Legumi</option><option>Frutta</option><option>Verdura</option><option>Frutta secca e semi</option><option>Oli e condimenti</option><option>Prodotti confezionati</option><option>Altro</option></select></div><div class="field"><label>Unità di riferimento</label><select id="fUnit"><option value="100 g">100 g</option><option value="100 ml">100 ml</option><option value="1 porzione">1 porzione</option></select></div><div class="field"><label>Energia (kcal)</label><input id="fKcal" type="number" min="0" step="0.1"></div><div class="field"><label>Proteine (g)</label><input id="fProtein" type="number" min="0" step="0.1"></div><div class="field"><label>Carboidrati (g)</label><input id="fCarbs" type="number" min="0" step="0.1"></div><div class="field"><label>Grassi (g)</label><input id="fFat" type="number" min="0" step="0.1"></div><div class="field"><label>Fibre (g)</label><input id="fFiber" type="number" min="0" step="0.1" placeholder="Facoltativo"></div></div>
+<div class="field"><label>Marca / fonte / note</label><input id="fSource" placeholder="Es. marca, etichetta, banca dati di riferimento"></div>
+<div class="actions"><button onclick="saveFood()">Salva alimento</button><button class="secondary" onclick="hideFoodForm()">Annulla</button></div>
+</div><div id="foodList"></div>
+</div>
+<div class="panel"><h2>Calcolatore porzioni</h2><div class="grid"><div class="field"><label>Alimento</label><select id="portionFood" onchange="calcPortion()"></select></div><div class="field"><label>Quantità (g o ml)</label><input id="portionQty" type="number" value="100" min="0" step="1" oninput="calcPortion()"></div></div><div id="portionResult" class="grid3"></div><div class="notice">Il calcolo scala i valori registrati in banca dati in proporzione alla quantità inserita. Verifica sempre che unità e valori di riferimento siano coerenti.</div></div>
+</section>
+<section id="documents" class="view hidden">
+<div class="panel"><h2>Centro documenti</h2><p class="muted">Seleziona un documento salvato per ristamparlo o salvarlo come PDF dal menu di stampa del browser.</p><div id="docList"></div><div class="notice">Per esportare: apri l'anteprima e scegli “Stampa” → “Salva come PDF”. La personalizzazione con logo, intestazione e layout definitivo sarà aggiunta nelle prossime iterazioni.</div></div>
+</section>
+<section id="printArea" class="panel print-area hidden"></section>
+<footer>NutriRe · Prototipo locale 1.1</footer>
+</main>
+<script>
+const read=(k)=>JSON.parse(localStorage.getItem('nutrire_'+k)||'[]'),write=(k,v)=>localStorage.setItem('nutrire_'+k,JSON.stringify(v));
+let clients=read('clients'),diets=read('diets'),workouts=read('workouts'),foods=read('foods'),exercises=read('exercises');
+if(!localStorage.getItem('nutrire_foods')){
+ foods=[
+ ['Pasta di semola secca','Cereali e derivati','100 g',353,13,72,1.5,3],
+ ['Riso bianco crudo','Cereali e derivati','100 g',358,7,80,0.6,1],
+ ['Riso basmati crudo','Cereali e derivati','100 g',354,8,78,0.8,1],
+ ['Pane comune','Cereali e derivati','100 g',275,8.5,57,1.5,3],
+ ['Pane integrale','Cereali e derivati','100 g',245,9,44,3.5,7],
+ ['Fiocchi d’avena','Cereali e derivati','100 g',372,13.5,58,7,10],
+ ['Farro secco','Cereali e derivati','100 g',335,15,67,2.5,7],
+ ['Quinoa secca','Cereali e derivati','100 g',368,14,64,6,7],
+ ['Patate crude','Cereali e derivati','100 g',77,2,17,0.1,2],
+ ['Petto di pollo crudo','Carne','100 g',110,23,0,1.2,0],
+ ['Petto di tacchino crudo','Carne','100 g',107,24,0,1,0],
+ ['Manzo magro crudo','Carne','100 g',137,21,0,5,0],
+ ['Bresaola','Carne','100 g',151,32,0.5,2,0],
+ ['Salmone crudo','Pesce','100 g',208,20,0,13,0],
+ ['Tonno al naturale sgocciolato','Pesce','100 g',116,25.5,0,1,0],
+ ['Merluzzo crudo','Pesce','100 g',82,18,0,0.7,0],
+ ['Uovo intero','Uova','100 g',143,12.6,0.7,9.5,0],
+ ['Albume','Uova','100 g',43,10.5,0.7,0.2,0],
+ ['Latte parzialmente scremato','Latte e derivati','100 ml',46,3.3,4.9,1.5,0],
+ ['Yogurt greco bianco 0%','Latte e derivati','100 g',59,10.3,3.6,0.4,0],
+ ['Yogurt bianco intero','Latte e derivati','100 g',66,3.8,4.7,3.5,0],
+ ['Ricotta vaccina','Latte e derivati','100 g',146,8.8,3.5,10.9,0],
+ ['Fiocchi di latte','Latte e derivati','100 g',98,11.5,3,4.3,0],
+ ['Parmigiano Reggiano','Latte e derivati','100 g',402,33,0,29,0],
+ ['Ceci cotti','Legumi','100 g',120,7,18.5,2,5.5],
+ ['Lenticchie cotte','Legumi','100 g',92,6.9,16,0.4,7.9],
+ ['Fagioli cannellini cotti','Legumi','100 g',91,6.5,13.5,0.6,6.5],
+ ['Banana','Frutta','100 g',89,1.1,23,0.3,2.6],
+ ['Mela con buccia','Frutta','100 g',52,0.3,14,0.2,2.4],
+ ['Arancia','Frutta','100 g',47,0.9,12,0.1,2.4],
+ ['Fragole','Frutta','100 g',32,0.7,7.7,0.3,2],
+ ['Zucchine crude','Verdura','100 g',17,1.2,3.1,0.3,1],
+ ['Pomodori','Verdura','100 g',18,0.9,3.9,0.2,1.2],
+ ['Carote crude','Verdura','100 g',41,0.9,9.6,0.2,2.8],
+ ['Mandorle','Frutta secca e semi','100 g',579,21,22,50,12.5],
+ ['Noci','Frutta secca e semi','100 g',654,15,14,65,6.7],
+ ['Olio extravergine di oliva','Oli e condimenti','100 g',884,0,0,100,0],
+ ['Miele','Oli e condimenti','100 g',304,0.3,82,0,0.2]
+ ].map((x,i)=>({id:'seed-'+i,name:x[0],category:x[1],unit:x[2],kcal:x[3],protein:x[4],carbs:x[5],fat:x[6],fiber:x[7],source:'Valori indicativi di riferimento — verificare con etichetta o banca dati ufficiale'}));
+ write('foods',foods);
+}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function tab(name){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById(name).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));render()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+function render(){clients=read('clients');diets=read('diets');workouts=read('workouts');document.getElementById('countClients').textContent=clients.length;document.getElementById('countDiets').textContent=diets.length;document.getElementById('countWorkouts').textContent=workouts.length;
+['dietClient','workClient'].forEach(id=>{let s=document.getElementById(id),v=s.value;s.innerHTML='<option value="">Seleziona cliente</option>'+clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');s.value=v});
+document.getElementById('clientList').innerHTML=clients.length?'<table><thead><tr><th>Cliente</th><th>Contatti</th><th>Obiettivo</th><th>Azioni</th></tr></thead><tbody>'+clients.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.phone||'')}<br><span class="muted">${esc(c.email||'')}</span></td><td>${esc(c.goal||'Da definire')}</td><td><div class="actions"><button class="secondary small" onclick="editClient('${c.id}')">Apri scheda</button><button class="danger small" onclick="deleteClient('${c.id}')">Elimina</button></div></td></tr>`).join('')+'</tbody></table>':'<div class="empty">Nessun cliente ancora. Aggiungi il primo cliente.</div>';
+document.getElementById('dietList').innerHTML=diets.length?diets.map(d=>`<div class="item"><div><b>${esc(d.title)}</b><br><span class="muted">${esc(clientName(d.client))} · ${esc(d.kcal)} kcal</span></div><button class="secondary small" onclick="loadDiet('${d.id}')">Apri</button></div>`).join(''):'<div class="empty">Nessun piano salvato.</div>';
+document.getElementById('workList').innerHTML=workouts.length?workouts.map(w=>`<div class="item"><div><b>${esc(w.title)}</b><br><span class="muted">${esc(clientName(w.client))} · ${esc(w.goal)}</span></div><button class="secondary small" onclick="loadWorkout('${w.id}')">Apri</button></div>`).join(''):'<div class="empty">Nessuna scheda salvata.</div>';
+if(document.getElementById('foodList'))renderFoods();
+document.getElementById('docList').innerHTML=[...diets.map(d=>({id:d.id,type:'Piano nutrizionale',title:d.title,client:d.client,fn:'diet'})),...workouts.map(w=>({id:w.id,type:'Scheda allenamento',title:w.title,client:w.client,fn:'work'}))].map(d=>`<div class="item"><div><b>${esc(d.title)}</b><br><span class="muted">${d.type} · ${esc(clientName(d.client))}</span></div><button class="secondary small" onclick="${d.fn==='diet'?'printDiet':'printWorkout'}('${d.id}')">Apri PDF</button></div>`).join('')||'<div class="empty">I documenti creati appariranno qui.</div>'}
+function clientName(id){return clients.find(c=>c.id===id)?.name||'Cliente non selezionato'}
+const clientFields=['cName','cPhone','cEmail','cBirth','cGoal','cNotes','cAllergies','cIntolerances','cDislikes','cFavorites','cFoodStyle','cAnamnesis','cMedications','cMeals','cMealTimes','cMealPreferences','cTypicalDay','cWork','cActivity','cSleep','cCooking','cHeight','cWeight','cBia','cMeasures'];
+let editingClientId=null;
+function newClient(){editingClientId=null;document.getElementById('clientFormTitle').textContent='Nuovo cliente';clientFields.forEach(id=>{let e=document.getElementById(id);if(e)e.value=''});document.querySelector('.profile-details').open=false;document.getElementById('clientForm').classList.remove('hidden')}
+function closeClient(){document.getElementById('clientForm').classList.add('hidden')}
+function editClient(id){let c=read('clients').find(x=>x.id===id);if(!c)return;editingClientId=id;document.getElementById('clientFormTitle').textContent='Modifica cartella cliente';const map={cName:'name',cPhone:'phone',cEmail:'email',cBirth:'birth',cGoal:'goal',cNotes:'notes',cAllergies:'allergies',cIntolerances:'intolerances',cDislikes:'dislikes',cFavorites:'favorites',cFoodStyle:'foodstyle',cAnamnesis:'anamnesis',cMedications:'medications',cMeals:'meals',cMealTimes:'mealtimes',cMealPreferences:'mealpreferences',cTypicalDay:'typicalday',cWork:'work',cActivity:'activity',cSleep:'sleep',cCooking:'cooking',cHeight:'height',cWeight:'weight',cBia:'bia',cMeasures:'measures'};clientFields.forEach(id=>{let e=document.getElementById(id);if(e)e.value=c[map[id]]??''});document.querySelector('.profile-details').open=true;document.getElementById('clientForm').classList.remove('hidden');document.getElementById('clientForm').scrollIntoView({behavior:'smooth',block:'start'})}
+function saveClient(){let name=document.getElementById('cName').value.trim();if(!name)return alert('Inserisci il nome del cliente');let c={id:editingClientId||crypto.randomUUID(),name,phone:getv('cPhone'),email:getv('cEmail'),birth:getv('cBirth'),goal:getv('cGoal'),notes:getv('cNotes'),allergies:getv('cAllergies'),intolerances:getv('cIntolerances'),dislikes:getv('cDislikes'),favorites:getv('cFavorites'),foodstyle:getv('cFoodStyle'),anamnesis:getv('cAnamnesis'),medications:getv('cMedications'),meals:getv('cMeals'),mealtimes:getv('cMealTimes'),mealpreferences:getv('cMealPreferences'),typicalday:getv('cTypicalDay'),work:getv('cWork'),activity:getv('cActivity'),sleep:getv('cSleep'),cooking:getv('cCooking'),height:getv('cHeight'),weight:getv('cWeight'),bia:getv('cBia'),measures:getv('cMeasures')};clients=read('clients');let i=clients.findIndex(x=>x.id===c.id);if(i>=0)clients[i]={...clients[i],...c};else clients.push(c);write('clients',clients);editingClientId=null;closeClient();render()}
+function deleteClient(id){if(confirm('Eliminare il cliente? I piani già salvati resteranno nell’archivio.')){write('clients',clients.filter(c=>c.id!==id));render()}}
+function getv(id){return document.getElementById(id).value}
+function saveDiet(){let d={id:crypto.randomUUID(),client:getv('dietClient'),title:getv('dietTitle')||'Piano nutrizionale',kcal:getv('kcal'),protein:getv('protein'),carbs:getv('carbs'),fat:getv('fat'),notes:getv('dietNotes'),breakfast:getv('breakfast'),snack:getv('snack'),lunch:getv('lunch'),merenda:getv('merenda'),dinner:getv('dinner'),alternatives:getv('alternatives')};diets.push(d);write('diets',diets);document.getElementById('dietSaved').textContent='Piano salvato.';render()}
+
+function setWeeks(){renderWeekButtons();renderWeekContent()}
+function renderWeekButtons(){let n=Number(getv('workWeeks')||4);document.getElementById('weekButtons').innerHTML=Array.from({length:n},(_,i)=>i+1).map(w=>`<button class="small ${currentWeek===w?'':'secondary'}" onclick="currentWeek=${w};renderWeekButtons();renderWeekContent()">Sett. ${w}</button>`).join('');}
+function renderExercisePicker(){let q=(getv('exerciseSearch')||'').toLowerCase();let list=read('exercises').filter(e=>e.name.toLowerCase().includes(q));document.getElementById('exercisePicker').innerHTML=list.map(e=>`<option value="${e.id}">${esc(e.name)} · ${esc(e.group)}</option>`).join('')||'<option value="">Nessun esercizio trovato</option>'}
+function renderExerciseDatabase(){let q=(getv('exerciseDbSearch')||'').toLowerCase(),g=getv('exerciseGroupFilter')||'';let list=read('exercises').filter(e=>(!g||e.group===g)&&e.name.toLowerCase().includes(q));document.getElementById('exerciseDatabaseList').innerHTML=list.length?'<div class="grid">'+list.map(e=>`<div class="item"><div><b>${esc(e.name)}</b><br><span class="muted">${esc(e.group)} · ${esc(e.equipment)} · ${esc(e.type)}</span></div>${e.custom?`<button class="danger small" onclick="deleteExercise('${e.id}')">Elimina</button>`:''}</div>`).join('')+'</div>':'<div class="empty">Nessun esercizio trovato.</div>'}
+function showExerciseForm(){document.getElementById('customExerciseForm').classList.remove('hidden')}
+function hideExerciseForm(){document.getElementById('customExerciseForm').classList.add('hidden')}
+function saveExercise(){let name=getv('newExName').trim();if(!name)return alert('Inserisci il nome dell’esercizio');exercises=read('exercises');exercises.push({id:crypto.randomUUID(),name,group:getv('newExGroup'),equipment:getv('newExEquipment'),type:getv('newExType'),custom:true});write('exercises',exercises);document.getElementById('newExName').value='';document.getElementById('newExEquipment').value='';hideExerciseForm();renderExercisePicker();renderExerciseDatabase()}
+function deleteExercise(id){if(confirm('Eliminare questo esercizio personalizzato?')){write('exercises',read('exercises').filter(e=>e.id!==id));renderExercisePicker();renderExerciseDatabase()}}
+function addExerciseToWorkout(){let id=getv('exercisePicker'),e=read('exercises').find(x=>x.id===id);if(!e)return alert('Seleziona un esercizio');if(!programWeeks[currentWeek])programWeeks[currentWeek]={};let day=getv('workDay');if(!programWeeks[currentWeek][day])programWeeks[currentWeek][day]=[];programWeeks[currentWeek][day].push({id:crypto.randomUUID(),exerciseId:e.id,name:e.name,group:e.group,equipment:e.equipment,sets:getv('exSets')||'3',reps:getv('exReps'),rest:getv('exRest'),notes:getv('exNotes')});renderWeekContent()}
+function removeWorkoutExercise(week,day,id){programWeeks[week][day]=programWeeks[week][day].filter(x=>x.id!==id);renderWeekContent()}
+function renderWeekContent(){let n=Number(getv('workWeeks')||4);document.getElementById('weekLabel').textContent='Settimana '+currentWeek;let days=programWeeks[currentWeek]||{};let keys=Object.keys(days).filter(k=>days[k].length);document.getElementById('weekWorkoutContent').innerHTML=keys.length?keys.map(day=>`<div style="margin-bottom:16px"><h3>${esc(day)}</h3>${days[day].map(x=>`<div class="item"><div><b>${esc(x.name)}</b><br><span class="muted">${esc(x.sets)} serie × ${esc(x.reps)} · Recupero ${esc(x.rest)}</span>${x.notes?`<br><span class="muted">${esc(x.notes)}</span>`:''}</div><button class="danger small no-print" onclick="removeWorkoutExercise(${currentWeek},'${day}','${x.id}')">Rimuovi</button></div>`).join('')}</div>`).join(''):'<div class="empty">Nessun esercizio inserito in questa settimana. Seleziona un esercizio e aggiungilo alla seduta.'}
+function saveWorkout(){let w={id:savedWorkoutId||crypto.randomUUID(),client:getv('workClient'),title:getv('workTitle')||'Programma allenamento',goal:getv('workGoal'),freq:getv('workFreq'),weeks:Number(getv('workWeeks')||4),program:JSON.parse(JSON.stringify(programWeeks))};workouts=read('workouts');let ix=workouts.findIndex(x=>x.id===w.id);if(ix>=0)workouts[ix]=w;else workouts.push(w);savedWorkoutId=w.id;write('workouts',workouts);render();alert('Programma salvato.')}
+function loadWorkout(id){let w=read('workouts').find(x=>x.id===id);if(!w)return;tab('training');savedWorkoutId=w.id;['workClient','workTitle','workGoal','workFreq'].forEach((k,i)=>document.getElementById(k).value=[w.client,w.title,w.goal,w.freq][i]||'');document.getElementById('workWeeks').value=w.weeks||4;programWeeks=w.program||{1:{},2:{},3:{},4:{},5:{},6:{}};currentWeek=1;renderWeekButtons();renderWeekContent()}
+function printDoc(title,client,body){let p=document.getElementById('printArea');p.innerHTML=`<div style="font-family:Arial,sans-serif;color:#252b27"><div style="font-size:28px;font-weight:bold">NutriRe.</div><div style="letter-spacing:2px;font-size:10px;margin-bottom:30px">NUTRITION · TRAINING · WELLNESS</div><h1>${esc(title)}</h1><p><b>Cliente:</b> ${esc(client)}</p><hr>${body}<p style="margin-top:50px;color:#777;font-size:11px">NutriRe · Documento generato ad uso professionale</p></div>`;p.classList.remove('hidden');window.print();setTimeout(()=>p.classList.add('hidden'),1000)}
+function printDiet(id){let d=diets.find(x=>x.id===id);if(!d)return;let sections=[['Indicazioni generali',d.notes],['Colazione',d.breakfast],['Spuntino',d.snack],['Pranzo',d.lunch],['Merenda',d.merenda],['Cena',d.dinner],['Alternative e sostituzioni',d.alternatives]].filter(x=>x[1]).map(x=>`<h3>${x[0]}</h3><p style="white-space:pre-wrap">${esc(x[1])}</p>`).join('');printDoc(d.title,clientName(d.client),`<p><b>Energia:</b> ${esc(d.kcal)} kcal &nbsp; <b>Proteine:</b> ${esc(d.protein)} g &nbsp; <b>Carboidrati:</b> ${esc(d.carbs)} g &nbsp; <b>Grassi:</b> ${esc(d.fat)} g</p>${sections}`)}
+function printWorkout(id){let w=workouts.find(x=>x.id===id);if(!w)return;printDoc(w.title,clientName(w.client),`<p><b>Obiettivo:</b> ${esc(w.goal)} &nbsp; <b>Frequenza:</b> ${esc(w.freq)}</p><h3>Programma</h3><p style="white-space:pre-wrap">${esc(w.plan)}</p>`)}
+function previewDiet(){let d={id:'preview',client:getv('dietClient'),title:getv('dietTitle')||'Piano nutrizionale',kcal:getv('kcal'),protein:getv('protein'),carbs:getv('carbs'),fat:getv('fat'),notes:getv('dietNotes'),breakfast:getv('breakfast'),snack:getv('snack'),lunch:getv('lunch'),merenda:getv('merenda'),dinner:getv('dinner'),alternatives:getv('alternatives')};let old=diets;diets=[d];printDiet('preview');diets=old}
+function previewWorkout(){let w={id:'preview',client:getv('workClient'),title:getv('workTitle')||'Programma allenamento',goal:getv('workGoal'),freq:getv('workFreq'),weeks:Number(getv('workWeeks')||4),program:programWeeks};let content=Array.from({length:w.weeks},(_,i)=>i+1).map(n=>{let days=w.program[n]||{},d=Object.keys(days).filter(k=>days[k].length);return d.length?`<h2>Settimana ${n}</h2>`+d.map(day=>`<h3>${esc(day)}</h3><ul>${days[day].map(x=>`<li>${esc(x.name)} — ${esc(x.sets)} × ${esc(x.reps)} · Recupero ${esc(x.rest)} ${x.notes?'· '+esc(x.notes):''}</li>`).join('')}</ul>`).join(''):''}).join('');printDoc(w.title,clientName(w.client),`<p><b>Obiettivo:</b> ${esc(w.goal)} · <b>Frequenza:</b> ${esc(w.freq)}</p>${content||'<p>Nessun esercizio inserito.</p>'}`)}
+
+
+if(!localStorage.getItem('nutrire_exercises')){
+ const seedExercises=[
+ ['Squat con bilanciere','Quadricipiti','Bilanciere','Multiarticolare'],['Front squat','Quadricipiti','Bilanciere','Multiarticolare'],['Leg press','Quadricipiti','Macchina','Multiarticolare'],['Leg extension','Quadricipiti','Macchina','Monoarticolare'],['Affondi camminati','Quadricipiti','Manubri','Multiarticolare'],['Bulgarian split squat','Quadricipiti','Manubri','Multiarticolare'],
+ ['Stacco da terra','Femorali','Bilanciere','Multiarticolare'],['Stacco rumeno','Femorali','Bilanciere','Multiarticolare'],['Leg curl','Femorali','Macchina','Monoarticolare'],['Hip thrust','Glutei','Bilanciere','Multiarticolare'],['Glute bridge','Glutei','Corpo libero','Multiarticolare'],['Abductor machine','Glutei','Macchina','Monoarticolare'],
+ ['Panca piana bilanciere','Petto','Bilanciere','Multiarticolare'],['Panca inclinata manubri','Petto','Manubri','Multiarticolare'],['Chest press','Petto','Macchina','Multiarticolare'],['Croci ai cavi','Petto','Cavi','Monoarticolare'],['Push-up','Petto','Corpo libero','Multiarticolare'],
+ ['Lat machine avanti','Schiena','Macchina','Multiarticolare'],['Trazioni alla sbarra','Schiena','Corpo libero','Multiarticolare'],['Rematore bilanciere','Schiena','Bilanciere','Multiarticolare'],['Pulley basso','Schiena','Cavi','Multiarticolare'],['Pulldown braccia tese','Schiena','Cavi','Monoarticolare'],
+ ['Military press','Spalle','Bilanciere','Multiarticolare'],['Shoulder press manubri','Spalle','Manubri','Multiarticolare'],['Alzate laterali','Spalle','Manubri','Monoarticolare'],['Reverse fly','Spalle','Manubri','Monoarticolare'],
+ ['Curl bilanciere','Bicipiti','Bilanciere','Monoarticolare'],['Curl manubri','Bicipiti','Manubri','Monoarticolare'],['Push down cavi','Tricipiti','Cavi','Monoarticolare'],['French press','Tricipiti','Manubrio','Monoarticolare'],
+ ['Calf raise','Polpacci','Macchina','Monoarticolare'],['Plank','Addome e core','Corpo libero','Funzionale'],['Crunch ai cavi','Addome e core','Cavi','Monoarticolare'],['Pallof press','Addome e core','Cavi','Funzionale'],
+ ['Burpee','Condizionamento','Corpo libero','Funzionale'],['Kettlebell swing','Full body','Kettlebell','Funzionale'],['Farmer carry','Full body','Manubri','Funzionale'],['Row ergometer','Condizionamento','Rower','Cardio'],['Ski ergometer','Condizionamento','SkiErg','Cardio']
+ ];
+ exercises=seedExercises.map((x,i)=>({id:'ex-'+i,name:x[0],group:x[1],equipment:x[2],type:x[3],custom:false}));write('exercises',exercises);
+}
+let currentWeek=1, programWeeks={1:{},2:{},3:{},4:{},5:{},6:{}}, savedWorkoutId=null;
+
+function showFoodForm(){document.getElementById('foodForm').classList.remove('hidden')}
+function hideFoodForm(){document.getElementById('foodForm').classList.add('hidden')}
+function saveFood(){
+ const name=getv('fName').trim(); if(!name)return alert('Inserisci il nome dell’alimento');
+ const nums=['fKcal','fProtein','fCarbs','fFat','fFiber'].map(id=>Number(getv(id)||0));
+ if(nums.some(n=>!Number.isFinite(n)||n<0))return alert('Inserisci valori nutrizionali validi.');
+ foods=read('foods');foods.push({id:crypto.randomUUID(),name,category:getv('fCategory'),unit:getv('fUnit'),kcal:nums[0],protein:nums[1],carbs:nums[2],fat:nums[3],fiber:nums[4],source:getv('fSource')});write('foods',foods);
+ ['fName','fKcal','fProtein','fCarbs','fFat','fFiber','fSource'].forEach(id=>document.getElementById(id).value='');hideFoodForm();renderFoods();
+}
+function deleteFood(id){if(confirm('Eliminare questo alimento dalla banca dati?')){foods=read('foods').filter(f=>f.id!==id);write('foods',foods);renderFoods()}}
+function renderFoods(){
+ foods=read('foods');const q=(getv('foodSearch')||'').toLowerCase(),cat=getv('foodFilter')||'';
+ const filtered=foods.filter(f=>f.name.toLowerCase().includes(q)&&(!cat||f.category===cat));
+ document.getElementById('foodList').innerHTML=filtered.length?'<table><thead><tr><th>Alimento</th><th>kcal</th><th>Proteine</th><th>Carboidrati</th><th>Grassi</th><th></th></tr></thead><tbody>'+filtered.map(f=>`<tr><td><b>${esc(f.name)}</b><br><span class="muted">${esc(f.category)} · ${esc(f.unit)}</span></td><td>${f.kcal}</td><td>${f.protein} g</td><td>${f.carbs} g</td><td>${f.fat} g</td><td><button class="danger small" onclick="deleteFood('${f.id}')">Elimina</button></td></tr>`).join('')+'</tbody></table>':'<div class="empty">Nessun alimento trovato. Aggiungi il primo alimento al tuo archivio.</div>';
+ const sel=document.getElementById('portionFood'),old=sel.value;sel.innerHTML='<option value="">Seleziona alimento</option>'+foods.map(f=>`<option value="${f.id}">${esc(f.name)} (${esc(f.unit)})</option>`).join('');sel.value=old;calcPortion();
+}
+function calcPortion(){
+ const id=getv('portionFood'),qty=Number(getv('portionQty')||0),f=read('foods').find(x=>x.id===id),out=document.getElementById('portionResult');if(!f||!qty){out.innerHTML='';return}
+ const factor=f.unit==='1 porzione'?qty:qty/100;out.innerHTML=[['Energia',(f.kcal*factor).toFixed(1)+' kcal'],['Proteine',(f.protein*factor).toFixed(1)+' g'],['Carboidrati',(f.carbs*factor).toFixed(1)+' g'],['Grassi',(f.fat*factor).toFixed(1)+' g'],['Fibre',(f.fiber*factor).toFixed(1)+' g']].map(x=>`<div class="stat"><span class="muted">${x[0]}</span><strong style="font-size:18px">${x[1]}</strong></div>`).join('');
+}
+
+render();renderWeekButtons();renderExercisePicker();renderExerciseDatabase();renderWeekContent();
+</script></body></html>
